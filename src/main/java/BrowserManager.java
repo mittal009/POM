@@ -12,16 +12,15 @@ import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
-public class BrowserManager extends Utils
-{
+public class BrowserManager extends Utils {
     LoadProp loadProp = new LoadProp();
-//    String browserName = loadProp.getProperty("browser");
+    //    String browserName = loadProp.getProperty("browser");
     String browserName = System.getProperty("browser");
     URL url = null;
     //boolean sauce = false;
     boolean sauce = Boolean.parseBoolean(System.getProperty("sauce"));
-    public void openBrowser()
-    {  //deciding locally or in sauce
+
+    public void openBrowser() {  //deciding locally or in sauce
 
         if (sauce) {
             //running in sauce
@@ -80,31 +79,34 @@ public class BrowserManager extends Utils
                 }
                 driver = new RemoteWebDriver(url, browserOptions);
 
-            } else
-            {
-                System.out.println("running in local.............");
-
-                if (browserName.equalsIgnoreCase("Chrome")) {
-                    System.setProperty("webdriver.chrome.driver", "src/test/resources/Drivers/chromedriver.exe");
-                    driver = new ChromeDriver();
-                    //to open site in firefox browser
-                } else if (browserName.equalsIgnoreCase("Firefox")) {
-                    System.setProperty("webdriver.gecko.driver", "src/test/resources/Drivers/geckodriver.exe");
-                    driver = new FirefoxDriver();
-                    //to open site in edge browser
-                } else if (browserName.equalsIgnoreCase("edge")) {
-                    System.setProperty("webdriver.edge.driver", "src/test/resources/Drivers/msedgedriver.exe");
-                    driver = new EdgeDriver();
-
-                }
-                // when does not open in right browser print wrong browser name
-                else {
-                    System.out.println("Wrong browsername  :" + browserName);
-                }
             }
-            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-            driver.manage().window().fullscreen();
-            driver.get("https://demo.nopcommerce.com/");
+        } else {
+            System.out.println("running in local.............");
+
+            if (browserName.equalsIgnoreCase("Chrome")) {
+                System.setProperty("webdriver.chrome.driver", "src/test/resources/Drivers/chromedriver.exe");
+                driver = new ChromeDriver();
+                //to open site in firefox browser
+            } else if (browserName.equalsIgnoreCase("Firefox")) {
+                System.setProperty("webdriver.gecko.driver", "src/test/resources/Drivers/geckodriver.exe");
+                driver = new FirefoxDriver();
+                //to open site in edge browser
+            } else if (browserName.equalsIgnoreCase("edge")) {
+                System.setProperty("webdriver.edge.driver", "src/test/resources/Drivers/msedgedriver.exe");
+                driver = new EdgeDriver();
+
+            }
+            // when does not open in right browser print wrong browser name
+            else {
+                System.out.println("Wrong browsername  :" + browserName);
+            }
+
         }
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        driver.get("https://demo.nopcommerce.com/");
+    }public void closeBrowser()
+    {
+        driver.close();
     }
-    }
+}

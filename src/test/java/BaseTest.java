@@ -10,14 +10,14 @@ public class BaseTest extends BrowserManager
         openBrowser();
     }
 
-//    @AfterMethod
-//    public void tearDown(ITestResult result)
-//    {
-//        if (!result.isSuccess())
-//        {
-//            captureScreenshot(result.getName());
-//        }
-//    }
+    @AfterMethod
+    public void tearDown(ITestResult result)
+    {
+        if (!result.isSuccess())
+        {
+            captureScreenshot(result.getName());
+        }closeBrowser();
+    }
 }
 
 
